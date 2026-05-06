@@ -122,7 +122,82 @@ BLUEPRINT_LOCATIONS: Dict[str, DeadCellsLocationData] = {
     "High Peak Castle - Homunculus Rune Pedestal":       DeadCellsLocationData(45_100_119, "High Peak Castle",    None),
     # Throne Room passage (after first HotK kill)
     "Throne Room Passage - Ivy Grenade Blueprint":       DeadCellsLocationData(45_100_120, "Throne Room",         None),
+    # Stilt Village
+    "Stilt Village - Parry Shield Blueprint":            DeadCellsLocationData(45_100_121, "Stilt Village",        None),
+    # Ancient Sewers
+    "Ancient Sewers - Alchemic Carbine Blueprint":       DeadCellsLocationData(45_100_122, "Ancient Sewers",       None),
+    "Ancient Sewers - Front Line Shield Blueprint":      DeadCellsLocationData(45_100_123, "Ancient Sewers",       None),
+    # High Peak Castle
+    "High Peak Castle - Boomerang Blueprint":            DeadCellsLocationData(45_100_124, "High Peak Castle",     None),
+    # Clock Room
+    "Clock Room - Bell Tower Blueprint":                 DeadCellsLocationData(45_100_125, "Clock Room",           None),
+    # Prisoners' Quarters
+    "Prisoners' Quarters - Quick Bow Blueprint":         DeadCellsLocationData(45_100_126, "Prisoners' Quarters",  None),
+    "Prisoners' Quarters - Spite Mutation Blueprint":    DeadCellsLocationData(45_100_127, "Prisoners' Quarters",  None),
+    "Prisoners' Quarters - Frenzy Mutation Blueprint":   DeadCellsLocationData(45_100_128, "Prisoners' Quarters",  None),
+    # Ramparts
+    "Ramparts - Extended Healing Blueprint":             DeadCellsLocationData(45_100_129, "Ramparts",             None),
+    # Slumbering Sanctuary
+    "Slumbering Sanctuary - Masochist Blueprint":        DeadCellsLocationData(45_100_130, "Slumbering Sanctuary", None),
+    # Graveyard
+    "Graveyard - Acceptance Mutation Blueprint":         DeadCellsLocationData(45_100_131, "Graveyard",            None),
+    # Ossuary
+    "Ossuary - Ripper Mutation Blueprint":               DeadCellsLocationData(45_100_132, "Ossuary",              None),
+    # Undying Shores (DLC: Fatal Falls)
+    "Undying Shores - Cocoon Blueprint":                 DeadCellsLocationData(45_100_133, "Undying Shores",       "dlc_fatal_falls"),
 }
+
+# ── No-hit door locations ─────────────────────────────────────────────────────
+
+NO_HIT_DOOR_LOCATIONS: Dict[str, DeadCellsLocationData] = {
+    "After Concierge - No-Hit Door":        DeadCellsLocationData(45_100_140, "Black Bridge",        None),
+    "After Conjunctivius - No-Hit Door":    DeadCellsLocationData(45_100_141, "Insufferable Crypt",  None),
+    "After Timekeeper - No-Hit Door":       DeadCellsLocationData(45_100_142, "Clock Room",          None),
+    "After Hand of the King - No-Hit Door": DeadCellsLocationData(45_100_143, "Throne Room",         None),
+}
+
+# ── Elite kill locations ──────────────────────────────────────────────────────
+# One-time permanent checks — triggered on first kill of that elite type ever.
+# Each biome contributes its most iconic elite enemy.
+# IDs: 45_100_300 – 45_100_399
+
+ELITE_KILL_LOCATIONS: Dict[str, DeadCellsLocationData] = {
+    # Base game biomes
+    "First Elite Kill: Zombie (Prisoners' Quarters)":       DeadCellsLocationData(45_100_300, "Prisoners' Quarters",  None),
+    "First Elite Kill: Grenadier (Promenade)":              DeadCellsLocationData(45_100_301, "Promenade",            None),
+    "First Elite Kill: Inquisitor (Promenade)":             DeadCellsLocationData(45_100_302, "Promenade",            None),
+    "First Elite Kill: Kamikaze (Toxic Sewers)":            DeadCellsLocationData(45_100_303, "Toxic Sewers",         None),
+    "First Elite Kill: Scorpion (Toxic Sewers)":            DeadCellsLocationData(45_100_304, "Toxic Sewers",         None),
+    "First Elite Kill: Archer (Ramparts)":                  DeadCellsLocationData(45_100_305, "Ramparts",             None),
+    "First Elite Kill: Shocker (Ramparts)":                 DeadCellsLocationData(45_100_306, "Ramparts",             None),
+    "First Elite Kill: Skeleton (Ossuary)":                 DeadCellsLocationData(45_100_307, "Ossuary",              None),
+    "First Elite Kill: Bat (Ossuary)":                      DeadCellsLocationData(45_100_308, "Ossuary",              None),
+    "First Elite Kill: Slasher (Ancient Sewers)":           DeadCellsLocationData(45_100_309, "Ancient Sewers",       None),
+    "First Elite Kill: Disgusting Worm (Ancient Sewers)":   DeadCellsLocationData(45_100_310, "Ancient Sewers",       None),
+    "First Elite Kill: Pirate Captain (Stilt Village)":     DeadCellsLocationData(45_100_311, "Stilt Village",        None),
+    "First Elite Kill: Bombardier (Stilt Village)":         DeadCellsLocationData(45_100_312, "Stilt Village",        None),
+    "First Elite Kill: Golem (Slumbering Sanctuary)":       DeadCellsLocationData(45_100_313, "Slumbering Sanctuary", None),
+    "First Elite Kill: Masker (Slumbering Sanctuary)":      DeadCellsLocationData(45_100_314, "Slumbering Sanctuary", None),
+    "First Elite Kill: Undead Archer (Graveyard)":          DeadCellsLocationData(45_100_315, "Graveyard",            None),
+    "First Elite Kill: Rampager (Graveyard)":               DeadCellsLocationData(45_100_316, "Graveyard",            None),
+    "First Elite Kill: Buzz Cutter (Clock Tower)":          DeadCellsLocationData(45_100_317, "Clock Tower",          None),
+    "First Elite Kill: Torchbearer (Clock Tower)":          DeadCellsLocationData(45_100_318, "Clock Tower",          None),
+    "First Elite Kill: Spectre (Forgotten Sepulcher)":      DeadCellsLocationData(45_100_319, "Forgotten Sepulcher",  None),
+    "First Elite Kill: Failed Experiment (Cavern)":         DeadCellsLocationData(45_100_320, "High Peak Castle",     None),
+    "First Elite Kill: Hand of the King Guard (HPC)":       DeadCellsLocationData(45_100_321, "High Peak Castle",     None),
+    "First Elite Kill: Arbiter (Distillery)":               DeadCellsLocationData(45_100_322, "Derelict Distillery",  None),
+    "First Elite Kill: Slammer (Distillery)":               DeadCellsLocationData(45_100_323, "Derelict Distillery",  None),
+    # DLC elites
+    "First Elite Kill: Plant (Dilapidated Arboretum)":      DeadCellsLocationData(45_100_330, "Dilapidated Arboretum","dlc_the_bad_seed"),
+    "First Elite Kill: Mushroom (Morass)":                  DeadCellsLocationData(45_100_331, "Morass",               "dlc_the_bad_seed"),
+    "First Elite Kill: Sewer Fly (Fractured Shrines)":      DeadCellsLocationData(45_100_332, "Fractured Shrines",    "dlc_fatal_falls"),
+    "First Elite Kill: Drowned (Undying Shores)":           DeadCellsLocationData(45_100_333, "Undying Shores",       "dlc_fatal_falls"),
+    "First Elite Kill: Zombie Pirate (Infested Shipwreck)": DeadCellsLocationData(45_100_334, "Infested Shipwreck",   "dlc_queen_and_the_sea"),
+    "First Elite Kill: Bomber (Cavern)":                    DeadCellsLocationData(45_100_335, "Cavern",               "dlc_rise_of_the_giant"),
+}
+
+#TODO: Potentionally add normal enemies as location checks later
+
 
 # ── DLC locations ─────────────────────────────────────────────────────────────
 
@@ -153,6 +228,8 @@ ALL_LOCATIONS: Dict[str, DeadCellsLocationData] = {
     **BOSS_LOCATIONS,
     **TIMED_DOOR_LOCATIONS,
     **BLUEPRINT_LOCATIONS,
+    **NO_HIT_DOOR_LOCATIONS,
+    **ELITE_KILL_LOCATIONS,
     **DLC_LOCATIONS,
 }
 
