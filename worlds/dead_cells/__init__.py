@@ -16,6 +16,7 @@ from .Items import (
 )
 from .Locations import ALL_LOCATIONS, DeadCellsLocationData
 from .Rules import set_rules
+from .Rules import _has_vine, _has_teleport, _has_ram, _has_spider, _has_homunculus, _can_reach_throne_room
 
 
 class DeadCellsItem(Item):
@@ -116,57 +117,61 @@ class DeadCellsWorld(World):
             self.multiworld.regions.append(region)
 
         # Helper to connect two regions
-        def connect(source: str, target: str) -> None:
+        def connect(source: str, target: str, rule=lambda s: True) -> None:
             if source in regions and target in regions:
-                regions[source].connect(regions[target], f"{source} -> {target}")
+                entrance = regions[source].connect(regions[target], f"{source} -> {target}")
+                entrance.access_rule = rule
 
         # Base game connections
-        connect("Menu",                 "Prisoners' Quarters")
-        connect("Prisoners' Quarters",  "Promenade")
-        connect("Prisoners' Quarters",  "Toxic Sewers")
-        connect("Promenade",            "Ramparts")
-        connect("Promenade",            "Ossuary")
-        connect("Promenade",            "Prison Depths")
-        connect("Toxic Sewers",         "Ramparts")
-        connect("Toxic Sewers",         "Ancient Sewers")
-        connect("Toxic Sewers",         "Corrupted Prison")
-        connect("Ramparts",             "Black Bridge")
-        connect("Ossuary",              "Insufferable Crypt")
-        connect("Ancient Sewers",       "Insufferable Crypt")
-        connect("Black Bridge",         "Stilt Village")
-        connect("Insufferable Crypt",   "Slumbering Sanctuary")
-        connect("Stilt Village",        "Graveyard")
-        connect("Stilt Village",        "Clock Tower")
+        connect("Menu", "Prisoners' Quarters")
+        connect("Prisoners' Quarters", "Promenade")
+        connect("Prisoners' Quarters", "Toxic Sewers", lambda s: _has_vine(s, self.player))
+        connect("Promenade", "Ramparts")
+        connect("Promenade", "Ossuary", lambda s: _has_teleport(s, self.player))
+        connect("Promenade", "Prison Depths", lambda s: _has_spider(s, self.player))
+        connect("Toxic Sewers", "Ramparts")
+        connect("Toxic Sewers", "Ancient Sewers", lambda s: _has_ram(s, self.player))
+        connect("Toxic Sewers", "Corrupted Prison", lambda s: _has_spider(s, self.player))
+        connect("Ramparts", "Black Bridge")
+        connect("Ossuary", "Insufferable Crypt")
+        connect("Ancient Sewers", "Insufferable Crypt")
+        connect("Black Bridge", "Stilt Village")
+        connect("Insufferable Crypt", "Slumbering Sanctuary", lambda s: _has_spider(s, self.player))
+        connect("Stilt Village", "Graveyard", lambda s: _has_spider(s, self.player))
+        connect("Stilt Village", "Clock Tower")
         connect("Slumbering Sanctuary", "Clock Tower")
-        connect("Graveyard",            "Clock Tower")
-        connect("Clock Tower",          "Forgotten Sepulcher")
-        connect("Clock Tower",          "Clock Room")
-        connect("Forgotten Sepulcher",  "Clock Room")
-        connect("Clock Room",           "High Peak Castle")
-        connect("Clock Room",           "Derelict Distillery")
-        connect("High Peak Castle",     "Throne Room")
-        connect("Derelict Distillery",  "Throne Room")
-
-        # DLC connections
+        connect("Graveyard", "Clock Tower")
+        connect("Clock Tower", "Forgotten Sepulcher", lambda s: _has_teleport(s, self.player))
+        connect("Clock Tower", "Clock Room")
+        connect("Forgotten Sepulcher", "Clock Room")
+        connect("Clock Room", "High Peak Castle")
+        connect("Clock Room", "Derelict Distillery")
+        connect("High Peak Castle", "Throne Room")
+        connect("Derelict Distillery", "Throne Room")
+        
         if self.options.dlc_the_bad_seed:
-            connect("Prisoners' Quarters",  "Dilapidated Arboretum")
-            connect("Dilapidated Arboretum","Morass")
-            connect("Morass",               "Nest")
-            connect("Nest",                 "Stilt Village")
+            connect("Prisoners' Quarters", "Dilapidated Arboretum", lambda s: _has_teleport(s, self.player))
+            connect("Dilapidated Arboretum", "Morass")
+            connect("Morass", "Nest")
+            connect("Nest", "Stilt Village")
+        
         if self.options.dlc_fatal_falls:
-            connect("Black Bridge",         "Fractured Shrines")
-            connect("Fractured Shrines",    "Undying Shores")
-            connect("Undying Shores",       "Mausoleum")
-            connect("Mausoleum",            "Clock Tower")
+            connect("Black Bridge", "Fractured Shrines")
+            connect("Fractured Shrines", "Undying Shores")
+            connect("Undying Shores", "Mausoleum")
+            connect("Mausoleum", "Clock Tower")
+        
         if self.options.dlc_rise_of_the_giant:
-            connect("Prisoners' Quarters",  "Cavern")
-            connect("Cavern",               "Guardian's Haven")
-            connect("Guardian's Haven",     "Astrolab")
-            connect("Astrolab",             "Collector's Lair")
+            connect("Prisoners' Quarters", "Cavern", lambda s: _has_homunculus(s, self.player))
+            connect("Cavern", "Guardian's Haven")
+            connect("Guardian's Haven", "Astrolab",
+                    lambda s: _can_reach_throne_room(s, self.player) and _has_homunculus(s, self.player))
+            connect("Astrolab", "Collector's Lair")
+        
         if self.options.dlc_queen_and_the_sea:
-            connect("Black Bridge",         "Undying Shores")
-            connect("Undying Shores",       "Infested Shipwreck")
-            connect("Infested Shipwreck",   "Lighthouse")
+            connect("Black Bridge", "Undying Shores")
+            connect("Undying Shores", "Infested Shipwreck")
+            connect("Infested Shipwreck", "Lighthouse")
 
         # Populate regions with locations
         for loc_name, loc_data in ALL_LOCATIONS.items():

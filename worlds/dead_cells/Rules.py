@@ -227,6 +227,16 @@ def _goal_target_bsc(state: CollectionState, player: int, target: int) -> bool:
 # ── Main entry point ──────────────────────────────────────────────────────────
 
 def set_rules(multiworld: MultiWorld, player: int, options: DeadCellsOptions) -> None:
+    goal = options.goal.value
+
+    if goal == Goal.option_hand_of_the_king:
+        multiworld.completion_condition[player] = lambda s: s.has("Victory", player)
+    elif goal == Goal.option_the_collector:
+        multiworld.completion_condition[player] = lambda s: s.has("Victory", player)
+    elif goal == Goal.option_target_bsc:
+        target = options.target_bsc_level.value
+        multiworld.completion_condition[player] = lambda s, t=target: _has_bsc(s, player, t)
+
     """
     Attach access rules to all entrances and locations for this player.
     Called from DeadCellsWorld.set_rules() in __init__.py.
