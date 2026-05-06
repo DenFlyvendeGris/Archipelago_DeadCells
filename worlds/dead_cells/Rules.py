@@ -237,57 +237,57 @@ def set_rules(multiworld: MultiWorld, player: int, options: DeadCellsOptions) ->
         ent = multiworld.get_entrance(f"{source} -> {target}", player)
         ent.access_rule = rule
 
-        # ── Base game entrance rules ───────────────────────────────────────────────
-        entrance("Menu", "Prisoners' Quarters", lambda s: True)
-        entrance("Prisoners' Quarters", "Promenade", lambda s: True)
-        entrance("Prisoners' Quarters", "Toxic Sewers", lambda s: _has_vine(s, player))
-        entrance("Promenade", "Ramparts", lambda s: True)
-        entrance("Promenade", "Ossuary", lambda s: _has_teleport(s, player))
-        entrance("Promenade", "Prison Depths", lambda s: _has_spider(s, player))
-        entrance("Toxic Sewers", "Ramparts", lambda s: True)
-        entrance("Toxic Sewers", "Ancient Sewers", lambda s: _has_ram(s, player))
-        entrance("Toxic Sewers", "Corrupted Prison", lambda s: _has_spider(s, player))
-        entrance("Ramparts", "Black Bridge", lambda s: True)
-        entrance("Ossuary", "Insufferable Crypt", lambda s: True)
-        entrance("Ancient Sewers", "Insufferable Crypt", lambda s: True)
-        entrance("Black Bridge", "Stilt Village", lambda s: True)
-        entrance("Insufferable Crypt", "Slumbering Sanctuary", lambda s: _has_spider(s, player))
-        entrance("Stilt Village", "Graveyard", lambda s: _has_spider(s, player))
-        entrance("Stilt Village", "Clock Tower", lambda s: True)
-        entrance("Slumbering Sanctuary", "Clock Tower", lambda s: True)
-        entrance("Graveyard", "Clock Tower", lambda s: True)
-        entrance("Clock Tower", "Forgotten Sepulcher", lambda s: _has_teleport(s, player))
-        entrance("Clock Tower", "Clock Room", lambda s: True)
-        entrance("Forgotten Sepulcher", "Clock Room", lambda s: True)
-        entrance("Clock Room", "High Peak Castle", lambda s: True)
-        entrance("Clock Room", "Derelict Distillery", lambda s: True)
-        entrance("High Peak Castle", "Throne Room", lambda s: True)
-        entrance("Derelict Distillery", "Throne Room", lambda s: True)
+    # ── Base game entrance rules ───────────────────────────────────────────────
+    entrance("Menu", "Prisoners' Quarters", lambda s: True)
+    entrance("Prisoners' Quarters", "Promenade", lambda s: True)
+    entrance("Prisoners' Quarters", "Toxic Sewers", lambda s: _has_vine(s, player))
+    entrance("Promenade", "Ramparts", lambda s: True)
+    entrance("Promenade", "Ossuary", lambda s: _has_teleport(s, player))
+    entrance("Promenade", "Prison Depths", lambda s: _has_spider(s, player))
+    entrance("Toxic Sewers", "Ramparts", lambda s: True)
+    entrance("Toxic Sewers", "Ancient Sewers", lambda s: _has_ram(s, player))
+    entrance("Toxic Sewers", "Corrupted Prison", lambda s: _has_spider(s, player))
+    entrance("Ramparts", "Black Bridge", lambda s: True)
+    entrance("Ossuary", "Insufferable Crypt", lambda s: True)
+    entrance("Ancient Sewers", "Insufferable Crypt", lambda s: True)
+    entrance("Black Bridge", "Stilt Village", lambda s: True)
+    entrance("Insufferable Crypt", "Slumbering Sanctuary", lambda s: _has_spider(s, player))
+    entrance("Stilt Village", "Graveyard", lambda s: _has_spider(s, player))
+    entrance("Stilt Village", "Clock Tower", lambda s: True)
+    entrance("Slumbering Sanctuary", "Clock Tower", lambda s: True)
+    entrance("Graveyard", "Clock Tower", lambda s: True)
+    entrance("Clock Tower", "Forgotten Sepulcher", lambda s: _has_teleport(s, player))
+    entrance("Clock Tower", "Clock Room", lambda s: True)
+    entrance("Forgotten Sepulcher", "Clock Room", lambda s: True)
+    entrance("Clock Room", "High Peak Castle", lambda s: True)
+    entrance("Clock Room", "Derelict Distillery", lambda s: True)
+    entrance("High Peak Castle", "Throne Room", lambda s: True)
+    entrance("Derelict Distillery", "Throne Room", lambda s: True)
 
-        # ── DLC entrance rules — only set if DLC is enabled ───────────────────────
-        if options.dlc_the_bad_seed:
-            entrance("Prisoners' Quarters", "Dilapidated Arboretum", lambda s: _has_teleport(s, player))
-            entrance("Dilapidated Arboretum", "Morass", lambda s: True)
-            entrance("Morass", "Nest", lambda s: True)
-            entrance("Nest", "Stilt Village", lambda s: True)
+    # ── DLC entrance rules — only set if DLC is enabled ───────────────────────
+    if options.dlc_the_bad_seed:
+        entrance("Prisoners' Quarters", "Dilapidated Arboretum", lambda s: _has_teleport(s, player))
+        entrance("Dilapidated Arboretum", "Morass", lambda s: True)
+        entrance("Morass", "Nest", lambda s: True)
+        entrance("Nest", "Stilt Village", lambda s: True)
 
-        if options.dlc_fatal_falls:
-            entrance("Black Bridge", "Fractured Shrines", lambda s: True)
-            entrance("Fractured Shrines", "Undying Shores", lambda s: True)
-            entrance("Undying Shores", "Mausoleum", lambda s: True)
-            entrance("Mausoleum", "Clock Tower", lambda s: True)
+    if options.dlc_fatal_falls:
+        entrance("Black Bridge", "Fractured Shrines", lambda s: True)
+        entrance("Fractured Shrines", "Undying Shores", lambda s: True)
+        entrance("Undying Shores", "Mausoleum", lambda s: True)
+        entrance("Mausoleum", "Clock Tower", lambda s: True)
 
-        if options.dlc_rise_of_the_giant:
-            entrance("Prisoners' Quarters", "Cavern", lambda s: _has_homunculus(s, player))
-            entrance("Cavern", "Guardian's Haven", lambda s: True)
-            entrance("Guardian's Haven", "Astrolab",
-                     lambda s: _can_reach_throne_room(s, player) and _has_homunculus(s, player))
-            entrance("Astrolab", "Collector's Lair", lambda s: True)
+    if options.dlc_rise_of_the_giant:
+        entrance("Prisoners' Quarters", "Cavern", lambda s: _has_homunculus(s, player))
+        entrance("Cavern", "Guardian's Haven", lambda s: True)
+        entrance("Guardian's Haven", "Astrolab",
+                 lambda s: _can_reach_throne_room(s, player) and _has_homunculus(s, player))
+        entrance("Astrolab", "Collector's Lair", lambda s: True)
 
-        if options.dlc_queen_and_the_sea:
-            entrance("Black Bridge", "Undying Shores", lambda s: True)
-            entrance("Undying Shores", "Infested Shipwreck", lambda s: True)
-            entrance("Infested Shipwreck", "Lighthouse", lambda s: True)
+    if options.dlc_queen_and_the_sea:
+        entrance("Black Bridge", "Undying Shores", lambda s: True)
+        entrance("Undying Shores", "Infested Shipwreck", lambda s: True)
+        entrance("Infested Shipwreck", "Lighthouse", lambda s: True)
 
     # ── Victory condition ─────────────────────────────────────────────────────
 
