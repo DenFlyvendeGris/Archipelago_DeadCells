@@ -234,33 +234,33 @@ class DeadCellsWorld(World):
             elif 45_000_360 <= data.code <= 45_000_379 and self.options.dlc_queen_and_the_sea:
                 add(name)
 
-            # Count active locations
-            location_count = sum(
-                1 for loc in ALL_LOCATIONS.values()
-                if loc.code is not None
-                and (not loc.dlc or getattr(self.options, loc.dlc))
-            )
+        # Count active locations
+        location_count = sum(
+            1 for loc in ALL_LOCATIONS.values()
+            if loc.code is not None
+            and (not loc.dlc or getattr(self.options, loc.dlc))
+        )
 
-            # If we have more items than locations, trim from the end of the pool
-            # (these will be non-progression items like extra blueprints)
-            if len(pool) > location_count:
-                pool = pool[:location_count]
+        # If we have more items than locations, trim from the end of the pool
+        # (these will be non-progression items like extra blueprints)
+        if len(pool) > location_count:
+            pool = pool[:location_count]
 
-            # If we have fewer items than locations, pad with traps and filler
-            remaining = location_count - len(pool)
-            if remaining > 0:
-                trap_count = int(remaining * (self.options.trap_percentage / 100))
-                filler_count = remaining - trap_count
+        # If we have fewer items than locations, pad with traps and filler
+        remaining = location_count - len(pool)
+        if remaining > 0:
+            trap_count = int(remaining * (self.options.trap_percentage / 100))
+            filler_count = remaining - trap_count
 
-                trap_names = list(TRAP_ITEMS.keys())
-                filler_names = list(FILLER_ITEMS.keys())
+            trap_names = list(TRAP_ITEMS.keys())
+            filler_names = list(FILLER_ITEMS.keys())
 
-                for i in range(trap_count):
-                    add(trap_names[i % len(trap_names)])
-                for i in range(filler_count):
-                    add(filler_names[i % len(filler_names)])
+            for i in range(trap_count):
+                add(trap_names[i % len(trap_names)])
+            for i in range(filler_count):
+                add(filler_names[i % len(filler_names)])
 
-            self.multiworld.itempool += pool
+        self.multiworld.itempool += pool
 
     def set_rules(self) -> None:
         set_rules(self.multiworld, self.player, self.options)
