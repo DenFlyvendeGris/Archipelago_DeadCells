@@ -2,13 +2,13 @@ name: Mads
 game: Dead Cells
 
 Dead Cells:
-  goal: hand_of_the_king
-  dlc_rise_of_the_giant: 0
-  dlc_the_bad_seed: 0
-  dlc_fatal_falls: 0
-  dlc_queen_and_the_sea: 0
+  goal: target_bsc
+  dlc_rise_of_the_giant: 1
+  dlc_the_bad_seed: 1
+  dlc_fatal_falls: 1
+  dlc_queen_and_the_sea: 1
   scroll_shuffle: 1
-  bsc_shuffle: 1
+  bsc_shuffle: 4
   trap_percentage: 10
   starting_weapon: any
   blueprint_count: subset
