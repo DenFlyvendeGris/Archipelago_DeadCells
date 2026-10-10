@@ -8,7 +8,8 @@ Dead Cells:
   dlc_fatal_falls: 1
   dlc_queen_and_the_sea: 1
   scroll_shuffle: 1
-  bsc_shuffle: 4
+  target_bsc_level: 4
   trap_percentage: 10
   starting_weapon: any
   blueprint_count: subset
+  elite_checks: true
