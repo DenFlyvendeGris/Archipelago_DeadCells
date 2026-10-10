@@ -83,6 +83,16 @@ class StartingWeapon(Choice):
     default = 0
 
 
+class EliteChecks(Toggle):
+    """Add one location per enemy type that can spawn as an elite
+    ("Defeat Elite Zombie", "Defeat Elite Grenadier", ...).
+
+    Experimental: the in-game mod must recognise each enemy's internal ID, which
+    is still being verified. Leave this off until the mod's elite table is confirmed,
+    otherwise important items could be placed on a check the mod cannot trigger."""
+    display_name = "Elite Kill Checks"
+
+
 class BlueprintCount(Choice):
     """How many blueprints enter the pool.
 
@@ -108,4 +118,5 @@ class DeadCellsOptions(PerGameCommonOptions):
     bsc_shuffle:            BSCShuffle
     trap_percentage:        TrapPercentage
     starting_weapon:        StartingWeapon
+    elite_checks:           EliteChecks
     blueprint_count:        BlueprintCount

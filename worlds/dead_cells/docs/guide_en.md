@@ -38,7 +38,7 @@ An example `AP.json` file:
 ```json
 {
     "Url": "archipelago.gg:12345",
-    "SlotName": "BeheadedPlayer",
+    "SlotName": "ExamplePlayer",
     "Password": ""
 }
 ```

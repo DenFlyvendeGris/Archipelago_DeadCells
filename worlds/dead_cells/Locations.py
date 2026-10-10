@@ -8,6 +8,7 @@ ID base: 45_100_000
   Timed door chests:   45_100_050 – 45_100_099
   Blueprint pickups:   45_100_100 – 45_100_199
   DLC locations:       45_100_200 – 45_100_299
+  Elite kills:         45_100_300 – 45_100_399  (only when the elite_checks option is on)
 """
 
 from typing import Dict, NamedTuple, Optional
@@ -17,6 +18,7 @@ class DeadCellsLocationData(NamedTuple):
     code: Optional[int]   # None = event location
     region: str           # which Region this location belongs to
     dlc: Optional[str]    # None = base game; otherwise the DLC option name
+    option: Optional[str] = None  # extra toggle that must also be on (e.g. "elite_checks")
 
 
 # ── Boss kill locations ───────────────────────────────────────────────────────
@@ -122,82 +124,7 @@ BLUEPRINT_LOCATIONS: Dict[str, DeadCellsLocationData] = {
     "High Peak Castle - Homunculus Rune Pedestal":       DeadCellsLocationData(45_100_119, "High Peak Castle",    None),
     # Throne Room passage (after first HotK kill)
     "Throne Room Passage - Ivy Grenade Blueprint":       DeadCellsLocationData(45_100_120, "Throne Room",         None),
-    # Stilt Village
-    "Stilt Village - Parry Shield Blueprint":            DeadCellsLocationData(45_100_121, "Stilt Village",        None),
-    # Ancient Sewers
-    "Ancient Sewers - Alchemic Carbine Blueprint":       DeadCellsLocationData(45_100_122, "Ancient Sewers",       None),
-    "Ancient Sewers - Front Line Shield Blueprint":      DeadCellsLocationData(45_100_123, "Ancient Sewers",       None),
-    # High Peak Castle
-    "High Peak Castle - Boomerang Blueprint":            DeadCellsLocationData(45_100_124, "High Peak Castle",     None),
-    # Clock Room
-    "Clock Room - Bell Tower Blueprint":                 DeadCellsLocationData(45_100_125, "Clock Room",           None),
-    # Prisoners' Quarters
-    "Prisoners' Quarters - Quick Bow Blueprint":         DeadCellsLocationData(45_100_126, "Prisoners' Quarters",  None),
-    "Prisoners' Quarters - Spite Mutation Blueprint":    DeadCellsLocationData(45_100_127, "Prisoners' Quarters",  None),
-    "Prisoners' Quarters - Frenzy Mutation Blueprint":   DeadCellsLocationData(45_100_128, "Prisoners' Quarters",  None),
-    # Ramparts
-    "Ramparts - Extended Healing Blueprint":             DeadCellsLocationData(45_100_129, "Ramparts",             None),
-    # Slumbering Sanctuary
-    "Slumbering Sanctuary - Masochist Blueprint":        DeadCellsLocationData(45_100_130, "Slumbering Sanctuary", None),
-    # Graveyard
-    "Graveyard - Acceptance Mutation Blueprint":         DeadCellsLocationData(45_100_131, "Graveyard",            None),
-    # Ossuary
-    "Ossuary - Ripper Mutation Blueprint":               DeadCellsLocationData(45_100_132, "Ossuary",              None),
-    # Undying Shores (DLC: Fatal Falls)
-    "Undying Shores - Cocoon Blueprint":                 DeadCellsLocationData(45_100_133, "Undying Shores",       "dlc_fatal_falls"),
 }
-
-# ── No-hit door locations ─────────────────────────────────────────────────────
-
-NO_HIT_DOOR_LOCATIONS: Dict[str, DeadCellsLocationData] = {
-    "After Concierge - No-Hit Door":        DeadCellsLocationData(45_100_140, "Black Bridge",        None),
-    "After Conjunctivius - No-Hit Door":    DeadCellsLocationData(45_100_141, "Insufferable Crypt",  None),
-    "After Timekeeper - No-Hit Door":       DeadCellsLocationData(45_100_142, "Clock Room",          None),
-    "After Hand of the King - No-Hit Door": DeadCellsLocationData(45_100_143, "Throne Room",         None),
-}
-
-# ── Elite kill locations ──────────────────────────────────────────────────────
-# One-time permanent checks — triggered on first kill of that elite type ever.
-# Each biome contributes its most iconic elite enemy.
-# IDs: 45_100_300 – 45_100_399
-
-ELITE_KILL_LOCATIONS: Dict[str, DeadCellsLocationData] = {
-    # Base game biomes
-    "First Elite Kill: Zombie (Prisoners' Quarters)":       DeadCellsLocationData(45_100_300, "Prisoners' Quarters",  None),
-    "First Elite Kill: Grenadier (Promenade)":              DeadCellsLocationData(45_100_301, "Promenade",            None),
-    "First Elite Kill: Inquisitor (Promenade)":             DeadCellsLocationData(45_100_302, "Promenade",            None),
-    "First Elite Kill: Kamikaze (Toxic Sewers)":            DeadCellsLocationData(45_100_303, "Toxic Sewers",         None),
-    "First Elite Kill: Scorpion (Toxic Sewers)":            DeadCellsLocationData(45_100_304, "Toxic Sewers",         None),
-    "First Elite Kill: Archer (Ramparts)":                  DeadCellsLocationData(45_100_305, "Ramparts",             None),
-    "First Elite Kill: Shocker (Ramparts)":                 DeadCellsLocationData(45_100_306, "Ramparts",             None),
-    "First Elite Kill: Skeleton (Ossuary)":                 DeadCellsLocationData(45_100_307, "Ossuary",              None),
-    "First Elite Kill: Bat (Ossuary)":                      DeadCellsLocationData(45_100_308, "Ossuary",              None),
-    "First Elite Kill: Slasher (Ancient Sewers)":           DeadCellsLocationData(45_100_309, "Ancient Sewers",       None),
-    "First Elite Kill: Disgusting Worm (Ancient Sewers)":   DeadCellsLocationData(45_100_310, "Ancient Sewers",       None),
-    "First Elite Kill: Pirate Captain (Stilt Village)":     DeadCellsLocationData(45_100_311, "Stilt Village",        None),
-    "First Elite Kill: Bombardier (Stilt Village)":         DeadCellsLocationData(45_100_312, "Stilt Village",        None),
-    "First Elite Kill: Golem (Slumbering Sanctuary)":       DeadCellsLocationData(45_100_313, "Slumbering Sanctuary", None),
-    "First Elite Kill: Masker (Slumbering Sanctuary)":      DeadCellsLocationData(45_100_314, "Slumbering Sanctuary", None),
-    "First Elite Kill: Undead Archer (Graveyard)":          DeadCellsLocationData(45_100_315, "Graveyard",            None),
-    "First Elite Kill: Rampager (Graveyard)":               DeadCellsLocationData(45_100_316, "Graveyard",            None),
-    "First Elite Kill: Buzz Cutter (Clock Tower)":          DeadCellsLocationData(45_100_317, "Clock Tower",          None),
-    "First Elite Kill: Torchbearer (Clock Tower)":          DeadCellsLocationData(45_100_318, "Clock Tower",          None),
-    "First Elite Kill: Spectre (Forgotten Sepulcher)":      DeadCellsLocationData(45_100_319, "Forgotten Sepulcher",  None),
-    "First Elite Kill: Failed Experiment (Cavern)":         DeadCellsLocationData(45_100_320, "High Peak Castle",     None),
-    "First Elite Kill: Hand of the King Guard (HPC)":       DeadCellsLocationData(45_100_321, "High Peak Castle",     None),
-    "First Elite Kill: Arbiter (Distillery)":               DeadCellsLocationData(45_100_322, "Derelict Distillery",  None),
-    "First Elite Kill: Slammer (Distillery)":               DeadCellsLocationData(45_100_323, "Derelict Distillery",  None),
-    # DLC elites
-    "First Elite Kill: Plant (Dilapidated Arboretum)":      DeadCellsLocationData(45_100_330, "Dilapidated Arboretum","dlc_the_bad_seed"),
-    "First Elite Kill: Mushroom (Morass)":                  DeadCellsLocationData(45_100_331, "Morass",               "dlc_the_bad_seed"),
-    "First Elite Kill: Sewer Fly (Fractured Shrines)":      DeadCellsLocationData(45_100_332, "Fractured Shrines",    "dlc_fatal_falls"),
-    "First Elite Kill: Drowned (Undying Shores)":           DeadCellsLocationData(45_100_333, "Undying Shores",       "dlc_fatal_falls"),
-    "First Elite Kill: Zombie Pirate (Infested Shipwreck)": DeadCellsLocationData(45_100_334, "Infested Shipwreck",   "dlc_queen_and_the_sea"),
-    "First Elite Kill: Bomber (Cavern)":                    DeadCellsLocationData(45_100_335, "Cavern",               "dlc_rise_of_the_giant"),
-}
-
-#TODO: Potentionally add normal enemies as location checks later
-
 
 # ── DLC locations ─────────────────────────────────────────────────────────────
 
@@ -222,15 +149,76 @@ DLC_LOCATIONS: Dict[str, DeadCellsLocationData] = {
     "Lighthouse - Bronze Door":                 DeadCellsLocationData(45_100_232, "Lighthouse",            "dlc_queen_and_the_sea"),
 }
 
+# ── Elite kill locations ──────────────────────────────────────────────────────
+# One location per enemy type that can spawn as an elite (source: the Dead Cells
+# wiki "Enemies" page, "Elite?" = Yes). Killing ANY elite of that type counts.
+#
+# Region = the region of the enemy's biomes that needs the fewest runes to reach
+# (base-game biomes are preferred; DLC-only enemies sit in their DLC region and
+# also require that DLC option). Left out on purpose: Return to Castlevania
+# enemies, The Bank / Cursed-biome enemies, spoilered Astrolab enemies and
+# Rampager (no fixed biome) - none of those have a region in this APWorld.
+#
+# Gated behind the `elite_checks` option. IDs must stay in sync with the mod's
+# EliteLocationIds table (GameHooks/CheckSender.cs).
+
+ELITE_LOCATIONS: Dict[str, DeadCellsLocationData] = {
+    "Defeat Elite Zombie": DeadCellsLocationData(45_100_300, "Prisoners' Quarters", None, "elite_checks"),
+    "Defeat Elite Undead Archer": DeadCellsLocationData(45_100_301, "Prisoners' Quarters", None, "elite_checks"),
+    "Defeat Elite Shieldbearer": DeadCellsLocationData(45_100_302, "Prisoners' Quarters", None, "elite_checks"),
+    "Defeat Elite Grenadier": DeadCellsLocationData(45_100_303, "Prisoners' Quarters", None, "elite_checks"),
+    "Defeat Elite Bombardier": DeadCellsLocationData(45_100_304, "Promenade", None, "elite_checks"),
+    "Defeat Elite Runner": DeadCellsLocationData(45_100_305, "Promenade", None, "elite_checks"),
+    "Defeat Elite Inquisitor": DeadCellsLocationData(45_100_306, "Prisoners' Quarters", None, "elite_checks"),
+    "Defeat Elite Hammer": DeadCellsLocationData(45_100_307, "Derelict Distillery", None, "elite_checks"),
+    "Defeat Elite Sweeper": DeadCellsLocationData(45_100_308, "Ramparts", None, "elite_checks"),
+    "Defeat Elite Festering Zombie": DeadCellsLocationData(45_100_309, "Stilt Village", None, "elite_checks"),
+    "Defeat Elite Swarm Zombie": DeadCellsLocationData(45_100_310, "Graveyard", None, "elite_checks"),
+    "Defeat Elite Disgusting Worm": DeadCellsLocationData(45_100_311, "Toxic Sewers", None, "elite_checks"),
+    "Defeat Elite Scorpion": DeadCellsLocationData(45_100_312, "Toxic Sewers", None, "elite_checks"),
+    "Defeat Elite Catcher": DeadCellsLocationData(45_100_313, "Graveyard", None, "elite_checks"),
+    "Defeat Elite Cleaver": DeadCellsLocationData(45_100_314, "Forgotten Sepulcher", None, "elite_checks"),
+    "Defeat Elite Pirate Captain": DeadCellsLocationData(45_100_315, "Stilt Village", None, "elite_checks"),
+    "Defeat Elite Knife Thrower": DeadCellsLocationData(45_100_316, "Prisoners' Quarters", None, "elite_checks"),
+    "Defeat Elite Slasher": DeadCellsLocationData(45_100_317, "Ramparts", None, "elite_checks"),
+    "Defeat Elite Lacerator": DeadCellsLocationData(45_100_318, "Derelict Distillery", None, "elite_checks"),
+    "Defeat Elite Thorny": DeadCellsLocationData(45_100_319, "High Peak Castle", None, "elite_checks"),
+    "Defeat Elite Caster": DeadCellsLocationData(45_100_320, "Slumbering Sanctuary", None, "elite_checks"),
+    "Defeat Elite Golem": DeadCellsLocationData(45_100_321, "Slumbering Sanctuary", None, "elite_checks"),
+    "Defeat Elite Dark Tracker": DeadCellsLocationData(45_100_322, "Promenade", None, "elite_checks"),
+    "Defeat Elite Cannibal": DeadCellsLocationData(45_100_323, "Clock Tower", None, "elite_checks"),
+    "Defeat Elite Lancer": DeadCellsLocationData(45_100_324, "High Peak Castle", None, "elite_checks"),
+    "Defeat Elite Royal Guard": DeadCellsLocationData(45_100_325, "High Peak Castle", None, "elite_checks"),
+    "Defeat Elite Bomber": DeadCellsLocationData(45_100_326, "Ossuary", None, "elite_checks"),
+    "Defeat Elite Slammer": DeadCellsLocationData(45_100_327, "Corrupted Prison", None, "elite_checks"),
+    "Defeat Elite Demon": DeadCellsLocationData(45_100_328, "High Peak Castle", None, "elite_checks"),
+    "Defeat Elite Failed Experiment": DeadCellsLocationData(45_100_329, "Prisoners' Quarters", None, "elite_checks"),
+    "Defeat Elite Oven Knight": DeadCellsLocationData(45_100_330, "Prisoners' Quarters", None, "elite_checks"),
+    "Defeat Elite Toxic Miasma": DeadCellsLocationData(45_100_331, "Corrupted Prison", None, "elite_checks"),
+    "Defeat Elite Weirded Warrior": DeadCellsLocationData(45_100_332, "Stilt Village", None, "elite_checks"),
+    "Defeat Elite Corpulent Zombie": DeadCellsLocationData(45_100_333, "Forgotten Sepulcher", None, "elite_checks"),
+    "Defeat Elite Dancer": DeadCellsLocationData(45_100_334, "Slumbering Sanctuary", None, "elite_checks"),
+    "Defeat Elite Infected Worker": DeadCellsLocationData(45_100_335, "Derelict Distillery", None, "elite_checks"),
+    "Defeat Elite Living Barrel": DeadCellsLocationData(45_100_336, "Derelict Distillery", None, "elite_checks"),
+    "Defeat Elite Demolisher": DeadCellsLocationData(45_100_337, "Prisoners' Quarters", None, "elite_checks"),
+    "Defeat Elite Arbiter": DeadCellsLocationData(45_100_338, "Cavern", "dlc_rise_of_the_giant", "elite_checks"),
+    "Defeat Elite Ground Shaker": DeadCellsLocationData(45_100_339, "Cavern", "dlc_rise_of_the_giant", "elite_checks"),
+    "Defeat Elite Yeeter": DeadCellsLocationData(45_100_340, "Dilapidated Arboretum", "dlc_the_bad_seed", "elite_checks"),
+    "Defeat Elite Giant Tick": DeadCellsLocationData(45_100_341, "Morass", "dlc_the_bad_seed", "elite_checks"),
+    "Defeat Elite Stone Warden": DeadCellsLocationData(45_100_342, "Fractured Shrines", "dlc_fatal_falls", "elite_checks"),
+    "Defeat Elite Cold Blooded Guardian": DeadCellsLocationData(45_100_343, "Fractured Shrines", "dlc_fatal_falls", "elite_checks"),
+    "Defeat Elite Mutineer": DeadCellsLocationData(45_100_344, "Infested Shipwreck", "dlc_queen_and_the_sea", "elite_checks"),
+    "Defeat Elite Armored Shrimp": DeadCellsLocationData(45_100_345, "Infested Shipwreck", "dlc_queen_and_the_sea", "elite_checks"),
+}
+
 # ── Master lookup ─────────────────────────────────────────────────────────────
 
 ALL_LOCATIONS: Dict[str, DeadCellsLocationData] = {
     **BOSS_LOCATIONS,
     **TIMED_DOOR_LOCATIONS,
     **BLUEPRINT_LOCATIONS,
-    **NO_HIT_DOOR_LOCATIONS,
-    **ELITE_KILL_LOCATIONS,
     **DLC_LOCATIONS,
+    **ELITE_LOCATIONS,
 }
 
 # ID → name reverse lookup (used by the client)

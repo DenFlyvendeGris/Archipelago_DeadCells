@@ -16,7 +16,6 @@ from .Items import (
 )
 from .Locations import ALL_LOCATIONS, DeadCellsLocationData
 from .Rules import set_rules
-from .Rules import _has_vine, _has_teleport, _has_ram, _has_spider, _has_homunculus, _can_reach_throne_room
 
 
 class DeadCellsItem(Item):
@@ -69,6 +68,16 @@ class DeadCellsWorld(World):
         # Nudge Vine Rune into early sphere so the player isn't immediately locked
         self.multiworld.local_early_items[self.player]["Vine Rune"] = 1
 
+    def _location_enabled(self, loc_data: DeadCellsLocationData) -> bool:
+        """A location exists only if its DLC (if any) and its extra option (if any,
+        e.g. elite_checks) are both switched on. Used by BOTH create_regions and
+        create_items so the item count always matches the location count."""
+        if loc_data.dlc and not getattr(self.options, loc_data.dlc):
+            return False
+        if loc_data.option and not getattr(self.options, loc_data.option):
+            return False
+        return True
+
     def create_item(self, name: str) -> DeadCellsItem:
         data = ALL_ITEMS[name]
         return DeadCellsItem(name, data.classification, data.code, self.player)
@@ -117,67 +126,63 @@ class DeadCellsWorld(World):
             self.multiworld.regions.append(region)
 
         # Helper to connect two regions
-        def connect(source: str, target: str, rule=lambda s: True) -> None:
+        def connect(source: str, target: str) -> None:
             if source in regions and target in regions:
-                entrance = regions[source].connect(regions[target], f"{source} -> {target}")
-                entrance.access_rule = rule
+                regions[source].connect(regions[target], f"{source} -> {target}")
 
         # Base game connections
-        connect("Menu", "Prisoners' Quarters")
-        connect("Prisoners' Quarters", "Promenade")
-        connect("Prisoners' Quarters", "Toxic Sewers", lambda s: _has_vine(s, self.player))
-        connect("Promenade", "Ramparts")
-        connect("Promenade", "Ossuary", lambda s: _has_teleport(s, self.player))
-        connect("Promenade", "Prison Depths", lambda s: _has_spider(s, self.player))
-        connect("Toxic Sewers", "Ramparts")
-        connect("Toxic Sewers", "Ancient Sewers", lambda s: _has_ram(s, self.player))
-        connect("Toxic Sewers", "Corrupted Prison", lambda s: _has_spider(s, self.player))
-        connect("Ramparts", "Black Bridge")
-        connect("Ossuary", "Insufferable Crypt")
-        connect("Ancient Sewers", "Insufferable Crypt")
-        connect("Black Bridge", "Stilt Village")
-        connect("Insufferable Crypt", "Slumbering Sanctuary", lambda s: _has_spider(s, self.player))
-        connect("Stilt Village", "Graveyard", lambda s: _has_spider(s, self.player))
-        connect("Stilt Village", "Clock Tower")
+        connect("Menu",                 "Prisoners' Quarters")
+        connect("Prisoners' Quarters",  "Promenade")
+        connect("Prisoners' Quarters",  "Toxic Sewers")
+        connect("Promenade",            "Ramparts")
+        connect("Promenade",            "Ossuary")
+        connect("Promenade",            "Prison Depths")
+        connect("Toxic Sewers",         "Ramparts")
+        connect("Toxic Sewers",         "Ancient Sewers")
+        connect("Toxic Sewers",         "Corrupted Prison")
+        connect("Ramparts",             "Black Bridge")
+        connect("Ossuary",              "Insufferable Crypt")
+        connect("Ancient Sewers",       "Insufferable Crypt")
+        connect("Black Bridge",         "Stilt Village")
+        connect("Insufferable Crypt",   "Slumbering Sanctuary")
+        connect("Stilt Village",        "Graveyard")
+        connect("Stilt Village",        "Clock Tower")
         connect("Slumbering Sanctuary", "Clock Tower")
-        connect("Graveyard", "Clock Tower")
-        connect("Clock Tower", "Forgotten Sepulcher", lambda s: _has_teleport(s, self.player))
-        connect("Clock Tower", "Clock Room")
-        connect("Forgotten Sepulcher", "Clock Room")
-        connect("Clock Room", "High Peak Castle")
-        connect("Clock Room", "Derelict Distillery")
-        connect("High Peak Castle", "Throne Room")
-        connect("Derelict Distillery", "Throne Room")
-        
+        connect("Graveyard",            "Clock Tower")
+        connect("Clock Tower",          "Forgotten Sepulcher")
+        connect("Clock Tower",          "Clock Room")
+        connect("Forgotten Sepulcher",  "Clock Room")
+        connect("Clock Room",           "High Peak Castle")
+        connect("Clock Room",           "Derelict Distillery")
+        connect("High Peak Castle",     "Throne Room")
+        connect("Derelict Distillery",  "Throne Room")
+
+        # DLC connections
         if self.options.dlc_the_bad_seed:
-            connect("Prisoners' Quarters", "Dilapidated Arboretum", lambda s: _has_teleport(s, self.player))
-            connect("Dilapidated Arboretum", "Morass")
-            connect("Morass", "Nest")
-            connect("Nest", "Stilt Village")
-        
+            connect("Prisoners' Quarters",  "Dilapidated Arboretum")
+            connect("Dilapidated Arboretum","Morass")
+            connect("Morass",               "Nest")
+            connect("Nest",                 "Stilt Village")
         if self.options.dlc_fatal_falls:
-            connect("Black Bridge", "Fractured Shrines")
-            connect("Fractured Shrines", "Undying Shores")
-            connect("Undying Shores", "Mausoleum")
-            connect("Mausoleum", "Clock Tower")
-        
+            connect("Black Bridge",         "Fractured Shrines")
+            connect("Fractured Shrines",    "Undying Shores")
+            connect("Undying Shores",       "Mausoleum")
+            connect("Mausoleum",            "Clock Tower")
         if self.options.dlc_rise_of_the_giant:
-            connect("Prisoners' Quarters", "Cavern", lambda s: _has_homunculus(s, self.player))
-            connect("Cavern", "Guardian's Haven")
-            connect("Guardian's Haven", "Astrolab",
-                    lambda s: _can_reach_throne_room(s, self.player) and _has_homunculus(s, self.player))
-            connect("Astrolab", "Collector's Lair")
-        
+            connect("Prisoners' Quarters",  "Cavern")
+            connect("Cavern",               "Guardian's Haven")
+            connect("Guardian's Haven",     "Astrolab")
+            connect("Astrolab",             "Collector's Lair")
         if self.options.dlc_queen_and_the_sea:
-            connect("Black Bridge", "Undying Shores")
-            connect("Undying Shores", "Infested Shipwreck")
-            connect("Infested Shipwreck", "Lighthouse")
+            connect("Black Bridge",         "Undying Shores")
+            connect("Undying Shores",       "Infested Shipwreck")
+            connect("Infested Shipwreck",   "Lighthouse")
 
         # Populate regions with locations
         for loc_name, loc_data in ALL_LOCATIONS.items():
             if loc_data.code is None:
                 continue
-            if loc_data.dlc and not getattr(self.options, loc_data.dlc):
+            if not self._location_enabled(loc_data):
                 continue
             if loc_data.region not in regions:
                 continue
@@ -239,31 +244,24 @@ class DeadCellsWorld(World):
             elif 45_000_360 <= data.code <= 45_000_379 and self.options.dlc_queen_and_the_sea:
                 add(name)
 
-        # Count active locations
+        # Count active locations to know how much filler we need
         location_count = sum(
             1 for loc in ALL_LOCATIONS.values()
-            if loc.code is not None
-            and (not loc.dlc or getattr(self.options, loc.dlc))
+            if loc.code is not None and self._location_enabled(loc)
         )
 
-        # If we have more items than locations, trim from the end of the pool
-        # (these will be non-progression items like extra blueprints)
-        if len(pool) > location_count:
-            pool = pool[:location_count]
-
-        # If we have fewer items than locations, pad with traps and filler
+        # Fill remaining slots with traps and filler
         remaining = location_count - len(pool)
-        if remaining > 0:
-            trap_count = int(remaining * (self.options.trap_percentage / 100))
-            filler_count = remaining - trap_count
+        trap_count = int(remaining * (self.options.trap_percentage / 100))
+        filler_count = remaining - trap_count
 
-            trap_names = list(TRAP_ITEMS.keys())
-            filler_names = list(FILLER_ITEMS.keys())
+        trap_names = list(TRAP_ITEMS.keys())
+        filler_names = list(FILLER_ITEMS.keys())
 
-            for i in range(trap_count):
-                add(trap_names[i % len(trap_names)])
-            for i in range(filler_count):
-                add(filler_names[i % len(filler_names)])
+        for i in range(trap_count):
+            add(trap_names[i % len(trap_names)])
+        for i in range(max(0, filler_count)):
+            add(filler_names[i % len(filler_names)])
 
         self.multiworld.itempool += pool
 
@@ -281,4 +279,5 @@ class DeadCellsWorld(World):
             "scroll_shuffle",
             "bsc_shuffle",
             "starting_weapon",
+            "elite_checks",
         )
